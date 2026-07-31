@@ -102,14 +102,17 @@ export async function getAgentes(): Promise<Agente[]> {
   const rows = await fetchCsvRows(process.env.SHEETS_AGENTES_CSV_URL);
   if (rows.length === 0) return PLACEHOLDER_AGENTES;
 
-  return rows.map((row) => ({
-    slug: withSlug(row, "nome"),
-    nome: row.nome ?? "",
-    descricao: row.descricao ?? "",
-    categoria: row.categoria ?? "",
-    imagem: row.imagem ?? "",
-    link: row.link ?? "#",
-  }));
+  return rows.map((row) => {
+    const nome = row.nome ?? row.titulo ?? "";
+    return {
+      slug: withSlug({ ...row, nome }, "nome"),
+      nome,
+      descricao: row.descricao ?? "",
+      categoria: row.categoria ?? "",
+      imagem: row.imagem ?? "",
+      link: row.link ?? "#",
+    };
+  });
 }
 
 export async function getMaterialBySlug(slug: string): Promise<Material | undefined> {
