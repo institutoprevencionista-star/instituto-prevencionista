@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { Card } from "@/components/ui/Card";
-import { ButtonLink } from "@/components/ui/Button";
-import type { Agente } from "@/lib/catalog";
+import { ButtonLink, Button } from "@/components/ui/Button";
+import { isLinkDisponivel, type Agente } from "@/lib/catalog";
 
 export function AgentesGrid({ agentes }: { agentes: Agente[] }) {
   const [busca, setBusca] = useState("");
@@ -39,17 +39,30 @@ export function AgentesGrid({ agentes }: { agentes: Agente[] }) {
           {agentesFiltrados.map((agente) => (
             <Card key={agente.slug} className="justify-between">
               <div>
-                {agente.categoria && (
-                  <span className="text-xs font-semibold uppercase tracking-wide text-brand-gold-500">
-                    {agente.categoria}
-                  </span>
-                )}
+                <div className="flex items-center justify-between gap-2">
+                  {agente.categoria && (
+                    <span className="text-xs font-semibold uppercase tracking-wide text-brand-gold-500">
+                      {agente.categoria}
+                    </span>
+                  )}
+                  {!isLinkDisponivel(agente.link) && (
+                    <span className="rounded-full bg-black/10 px-2 py-0.5 text-xs font-semibold text-black/60">
+                      Em breve
+                    </span>
+                  )}
+                </div>
                 <h2 className="mt-1 text-lg font-semibold text-brand-green-900">{agente.nome}</h2>
                 <p className="mt-2 text-sm text-black/70">{agente.descricao}</p>
               </div>
-              <ButtonLink href={agente.link} target="_blank" className="mt-6">
-                Acessar agente
-              </ButtonLink>
+              {isLinkDisponivel(agente.link) ? (
+                <ButtonLink href={agente.link} target="_blank" className="mt-6">
+                  Acessar agente
+                </ButtonLink>
+              ) : (
+                <Button variant="primary" className="mt-6" disabled>
+                  Em breve
+                </Button>
+              )}
             </Card>
           ))}
         </div>
