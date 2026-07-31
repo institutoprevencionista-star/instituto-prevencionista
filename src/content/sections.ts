@@ -11,8 +11,8 @@ export const SECTIONS = [
     description: "Treinamentos pagos e completos, com acesso liberado direto no checkout.",
   },
   {
-    href: "/agentes-ia",
-    title: "Agentes de IA",
+    href: "/agentes-inteligentes",
+    title: "Agentes Inteligentes",
     description: "Agentes de inteligência artificial especializados para apoiar seu dia a dia em SST.",
   },
   {

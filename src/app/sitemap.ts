@@ -7,7 +7,7 @@ const STATIC_ROUTES = [
   "",
   "/biblioteca",
   "/biblioteca-premium",
-  "/agentes-ia",
+  "/agentes-inteligentes",
   "/consultoria",
   "/presencial",
   "/politica-privacidade",
