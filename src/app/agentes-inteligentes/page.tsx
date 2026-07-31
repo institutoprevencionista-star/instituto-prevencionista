@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { AgentesGrid } from "@/components/agentes/AgentesGrid";
 import { getAgentes } from "@/lib/catalog";
+import { getCurrentUser } from "@/lib/supabase/server";
+import { logout } from "@/app/actions/auth";
 
 export const metadata: Metadata = {
   title: "Agentes Inteligentes",
@@ -9,6 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AgentesInteligentesPage() {
+  const user = await getCurrentUser();
   const agentes = await getAgentes();
 
   return (
@@ -19,6 +22,16 @@ export default async function AgentesInteligentesPage() {
           Agentes de inteligência artificial prontos para apoiar o seu dia a dia em segurança e
           saúde do trabalho.
         </p>
+        {user?.email && (
+          <p className="mt-4 text-sm text-black/60">
+            Logado como {user.email} ·{" "}
+            <form action={logout} className="inline">
+              <button type="submit" className="underline hover:text-brand-green-700">
+                Sair
+              </button>
+            </form>
+          </p>
+        )}
       </div>
 
       <div className="mt-10">

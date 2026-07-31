@@ -92,7 +92,31 @@ RESEND_FROM_EMAIL=contato@institutoprevencionista.com.br
 > só não envia o e-mail automático (o link também aparece na tela na hora, então ninguém fica sem
 > acesso).
 
-## 4. Conectando o domínio ao site (Vercel)
+## 4. Login da área de Agentes Inteligentes (Supabase)
+
+Para evitar que os links dos Agentes Inteligentes sejam repassados por WhatsApp ou e-mail, essa
+página exige login. O login é feito só com e-mail (sem senha): a pessoa digita o e-mail, recebe
+um link por e-mail e clica para entrar. Só entra quem você convidar antes.
+
+1. Crie uma conta gratuita em [supabase.com](https://supabase.com) e um novo projeto (não pede
+   cartão de crédito).
+2. No painel do projeto, vá em **Authentication → Sign In / Providers → Email** e **desmarque**
+   a opção "Allow new users to sign up". Assim, só quem for convidado consegue entrar.
+3. Vá em **Settings → API** e copie o **Project URL** e a **anon public key**. Essas são as
+   variáveis:
+   ```
+   NEXT_PUBLIC_SUPABASE_URL=<Project URL>
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon public key>
+   ```
+4. **Para liberar o acesso de alguém:** vá em **Authentication → Users → Invite user**, digite o
+   e-mail da pessoa e confirme. Ela recebe um e-mail automático com o link de acesso.
+5. **Para revogar o acesso de alguém:** na mesma tela, encontre o usuário e exclua o cadastro.
+
+> Quando chegar a fase comercial e você quiser vender acesso em vez de convidar manualmente, é só
+> voltar nessa mesma tela do Supabase e trocar a configuração — não precisa mexer no código do
+> site.
+
+## 5. Conectando o domínio ao site (Vercel)
 
 1. Crie uma conta gratuita em [vercel.com](https://vercel.com) e importe este projeto (via GitHub,
    ou enviando a pasta).
@@ -105,10 +129,10 @@ RESEND_FROM_EMAIL=contato@institutoprevencionista.com.br
 5. Aguarde a propagação (a Vercel avisa automaticamente quando o domínio fica ativo — pode levar
    de minutos a algumas horas).
 
-## 5. Variáveis de ambiente e deploy
+## 6. Variáveis de ambiente e deploy
 
 Em **Settings → Environment Variables** no projeto da Vercel, cadastre todas as variáveis
-descritas nos itens 1, 2 e 3 deste guia, além de:
+descritas nos itens 1, 2, 3 e 4 deste guia, além de:
 
 ```
 NEXT_PUBLIC_SITE_URL=https://institutoprevencionista.com.br
@@ -117,9 +141,10 @@ NEXT_PUBLIC_SITE_URL=https://institutoprevencionista.com.br
 Depois clique em **Deploy** (ou **Redeploy**, se o site já tinha sido publicado antes de você
 cadastrar as variáveis).
 
-## 6. Rotina do dia a dia
+## 7. Rotina do dia a dia
 
 - **Adicionar um material, treinamento ou agente novo:** edite a planilha de catálogos (item 1). Não precisa mexer em código.
 - **Trocar o link do Hotmart ou de um agente:** edite a célula correspondente na planilha.
+- **Liberar o acesso de alguém aos Agentes Inteligentes:** painel do Supabase → Authentication → Users → Invite user (item 4).
 - **Ver os leads recebidos:** abra a planilha de Leads (item 2), aba "Leads".
 - **Trocar a logo:** substitua o arquivo `public/logo.png` por uma nova imagem com o mesmo nome.

@@ -55,7 +55,11 @@ export function AgentesGrid({ agentes }: { agentes: Agente[] }) {
                 <p className="mt-2 text-sm text-black/70">{agente.descricao}</p>
               </div>
               {isLinkDisponivel(agente.link) ? (
-                <ButtonLink href={agente.link} target="_blank" className="mt-6">
+                <ButtonLink
+                  href={`/api/agentes/${agente.slug}/ir`}
+                  target="_blank"
+                  className="mt-6"
+                >
                   Acessar agente
                 </ButtonLink>
               ) : (
