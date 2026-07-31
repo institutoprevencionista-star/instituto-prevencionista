@@ -17,12 +17,12 @@ export const SECTIONS = [
   },
   {
     href: "/consultoria",
-    title: "Consultoria e Treinamento Personalizado",
+    title: "Consultoria Especializada",
     description: "Conte sua necessidade e receba uma proposta sob medida para sua empresa.",
   },
   {
-    href: "/presencial",
-    title: "Treinamento Presencial",
+    href: "/treinamento-in-company",
+    title: "Treinamento In Company",
     description: "Solicite um treinamento presencial na sua cidade para sua equipe.",
   },
 ] as const;

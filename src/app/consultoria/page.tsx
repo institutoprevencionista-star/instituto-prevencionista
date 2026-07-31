@@ -3,7 +3,7 @@ import { Container } from "@/components/ui/Container";
 import { ConsultoriaForm } from "@/components/forms/ConsultoriaForm";
 
 export const metadata: Metadata = {
-  title: "Consultoria e Treinamento Personalizado",
+  title: "Consultoria Especializada",
   description: "Solicite uma proposta sob medida de consultoria ou treinamento personalizado.",
 };
 
@@ -12,7 +12,7 @@ export default function ConsultoriaPage() {
     <Container className="grid gap-10 py-16 lg:grid-cols-2 lg:items-start">
       <div>
         <h1 className="text-3xl font-bold text-brand-black">
-          Consultoria e Treinamento Personalizado
+          Consultoria Especializada
         </h1>
         <p className="mt-4 text-black/70">
           Cada empresa tem uma realidade diferente. Conte pra gente qual é a sua necessidade e

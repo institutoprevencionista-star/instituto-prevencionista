@@ -3,15 +3,15 @@ import { Container } from "@/components/ui/Container";
 import { PresencialForm } from "@/components/forms/PresencialForm";
 
 export const metadata: Metadata = {
-  title: "Treinamento Presencial",
+  title: "Treinamento In Company",
   description: "Solicite um treinamento presencial na sua cidade.",
 };
 
-export default function PresencialPage() {
+export default function TreinamentoInCompanyPage() {
   return (
     <Container className="grid gap-10 py-16 lg:grid-cols-2 lg:items-start">
       <div>
-        <h1 className="text-3xl font-bold text-brand-black">Treinamento Presencial</h1>
+        <h1 className="text-3xl font-bold text-brand-black">Treinamento In Company</h1>
         <p className="mt-4 text-black/70">
           Levamos o treinamento até a sua cidade. Conte pra gente onde e como podemos ajudar a sua
           equipe.
