@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/ui/Container";
-import { ButtonLink } from "@/components/ui/Button";
-import { getTreinamentoBySlug } from "@/lib/catalog";
+import { ButtonLink, Button } from "@/components/ui/Button";
+import { getTreinamentoBySlug, isLinkDisponivel } from "@/lib/catalog";
 
 export async function generateMetadata(
   props: PageProps<"/treinamentos-vip/[slug]">
@@ -31,14 +31,20 @@ export default async function TreinamentoPage(props: PageProps<"/treinamentos-vi
         {treinamento.preco && (
           <p className="mt-4 text-2xl font-bold text-brand-green-900">{treinamento.preco}</p>
         )}
-        <ButtonLink
-          href={treinamento.linkHotmart}
-          target="_blank"
-          variant="secondary"
-          className="mt-6"
-        >
-          Comprar agora
-        </ButtonLink>
+        {isLinkDisponivel(treinamento.linkHotmart) ? (
+          <ButtonLink
+            href={treinamento.linkHotmart}
+            target="_blank"
+            variant="secondary"
+            className="mt-6"
+          >
+            Comprar agora
+          </ButtonLink>
+        ) : (
+          <Button variant="secondary" className="mt-6" disabled>
+            Em breve
+          </Button>
+        )}
       </div>
     </Container>
   );

@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { ButtonLink } from "@/components/ui/Button";
-import { getTreinamentos } from "@/lib/catalog";
+import { getTreinamentos, isLinkDisponivel } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Treinamentos VIP",
@@ -25,11 +25,18 @@ export default async function TreinamentosVipPage() {
         {treinamentos.map((treinamento) => (
           <Card key={treinamento.slug} className="justify-between">
             <div>
-              {treinamento.categoria && (
-                <span className="text-xs font-semibold uppercase tracking-wide text-brand-gold-500">
-                  {treinamento.categoria}
-                </span>
-              )}
+              <div className="flex items-center justify-between gap-2">
+                {treinamento.categoria && (
+                  <span className="text-xs font-semibold uppercase tracking-wide text-brand-gold-500">
+                    {treinamento.categoria}
+                  </span>
+                )}
+                {!isLinkDisponivel(treinamento.linkHotmart) && (
+                  <span className="rounded-full bg-black/10 px-2 py-0.5 text-xs font-semibold text-black/60">
+                    Em breve
+                  </span>
+                )}
+              </div>
               <h2 className="mt-1 text-lg font-semibold text-brand-green-900">
                 {treinamento.titulo}
               </h2>

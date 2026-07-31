@@ -1,5 +1,9 @@
 import { fetchCsvRows, slugify } from "./csv";
 
+export function isLinkDisponivel(link: string): boolean {
+  return Boolean(link) && link !== "#";
+}
+
 export type Material = {
   slug: string;
   titulo: string;
