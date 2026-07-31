@@ -16,9 +16,9 @@ Colunas na primeira linha, exatamente assim:
 - `slug`: pode deixar em branco — o site gera automaticamente a partir do título.
 
 ### Aba "Treinamentos" (Biblioteca Premium)
-`titulo | descricao | categoria | imagem | preco | linkHotmart | slug`
+`titulo | descricao | categoria | imagem | slug`
 
-- `linkHotmart`: o link de checkout do produto no Hotmart. Enquanto não tiver, deixe como `#` — o site mostra "EM BREVE".
+- A Biblioteca Premium é vendida como **assinatura única** (não por treinamento individual). Essa aba só alimenta a vitrine "O que está incluso" na página — o preço e o link de assinatura ficam configurados à parte (veja item 5).
 
 ### Aba "Agentes" (Agentes de IA)
 `nome | descricao | categoria | imagem | link | slug`
@@ -116,7 +116,21 @@ um link por e-mail e clica para entrar. Só entra quem você convidar antes.
 > voltar nessa mesma tela do Supabase e trocar a configuração — não precisa mexer no código do
 > site.
 
-## 5. Conectando o domínio ao site (Vercel)
+## 5. Assinatura da Biblioteca Premium (Hotmart)
+
+A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento por treinamento).
+
+1. Configure o produto de assinatura na Hotmart (preço, cupom de lançamento, etc).
+2. Pegue o **link de checkout** do produto (Links de divulgação → Página de Vendas).
+3. Cadastre a variável:
+   ```
+   NEXT_PUBLIC_BIBLIOTECA_PREMIUM_CHECKOUT_URL=<link de checkout>
+   ```
+
+> Enquanto essa variável não estiver configurada, o site mostra o botão "Em breve" na página da
+> Biblioteca Premium.
+
+## 6. Conectando o domínio ao site (Vercel)
 
 1. Crie uma conta gratuita em [vercel.com](https://vercel.com) e importe este projeto (via GitHub,
    ou enviando a pasta).
@@ -129,10 +143,10 @@ um link por e-mail e clica para entrar. Só entra quem você convidar antes.
 5. Aguarde a propagação (a Vercel avisa automaticamente quando o domínio fica ativo — pode levar
    de minutos a algumas horas).
 
-## 6. Variáveis de ambiente e deploy
+## 7. Variáveis de ambiente e deploy
 
 Em **Settings → Environment Variables** no projeto da Vercel, cadastre todas as variáveis
-descritas nos itens 1, 2, 3 e 4 deste guia, além de:
+descritas nos itens 1, 2, 3, 4 e 5 deste guia, além de:
 
 ```
 NEXT_PUBLIC_SITE_URL=https://institutoprevencionista.com.br
@@ -141,10 +155,11 @@ NEXT_PUBLIC_SITE_URL=https://institutoprevencionista.com.br
 Depois clique em **Deploy** (ou **Redeploy**, se o site já tinha sido publicado antes de você
 cadastrar as variáveis).
 
-## 7. Rotina do dia a dia
+## 8. Rotina do dia a dia
 
 - **Adicionar um material, treinamento ou agente novo:** edite a planilha de catálogos (item 1). Não precisa mexer em código.
-- **Trocar o link do Hotmart ou de um agente:** edite a célula correspondente na planilha.
+- **Trocar o link de um agente:** edite a célula correspondente na planilha.
+- **Trocar o link de checkout ou o preço da Biblioteca Premium:** ajuste direto na Hotmart e, se o link mudar, atualize `NEXT_PUBLIC_BIBLIOTECA_PREMIUM_CHECKOUT_URL` (item 5).
 - **Liberar o acesso de alguém aos Agentes Inteligentes:** painel do Supabase → Authentication → Users → Invite user (item 4).
 - **Ver os leads recebidos:** abra a planilha de Leads (item 2), aba "Leads".
 - **Trocar a logo:** substitua o arquivo `public/logo.png` por uma nova imagem com o mesmo nome.

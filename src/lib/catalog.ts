@@ -19,8 +19,6 @@ export type Treinamento = {
   descricao: string;
   categoria: string;
   imagem: string;
-  preco: string;
-  linkHotmart: string;
 };
 
 export type Agente = {
@@ -52,8 +50,6 @@ const PLACEHOLDER_TREINAMENTOS: Treinamento[] = [
       "Este é um treinamento de exemplo. Cadastre os treinamentos reais na planilha configurada em SHEETS_TREINAMENTOS_CSV_URL.",
     categoria: "Exemplo",
     imagem: "",
-    preco: "",
-    linkHotmart: "#",
   },
 ];
 
@@ -99,8 +95,6 @@ export async function getTreinamentos(): Promise<Treinamento[]> {
     descricao: row.descricao ?? "",
     categoria: row.categoria ?? "",
     imagem: row.imagem ?? "",
-    preco: row.preco ?? "",
-    linkHotmart: row.linkhotmart ?? row.link ?? "#",
   }));
 }
 
@@ -121,11 +115,4 @@ export async function getAgentes(): Promise<Agente[]> {
 export async function getMaterialBySlug(slug: string): Promise<Material | undefined> {
   const materiais = await getMateriais();
   return materiais.find((material) => material.slug === slug);
-}
-
-export async function getTreinamentoBySlug(
-  slug: string
-): Promise<Treinamento | undefined> {
-  const treinamentos = await getTreinamentos();
-  return treinamentos.find((treinamento) => treinamento.slug === slug);
 }
