@@ -6,7 +6,7 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://institutoprevencio
 const STATIC_ROUTES = [
   "",
   "/biblioteca",
-  "/treinamentos-vip",
+  "/biblioteca-premium",
   "/agentes-ia",
   "/consultoria",
   "/presencial",
@@ -25,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   const treinamentosEntries = treinamentos.map((treinamento) => ({
-    url: `${SITE_URL}/treinamentos-vip/${treinamento.slug}`,
+    url: `${SITE_URL}/biblioteca-premium/${treinamento.slug}`,
   }));
 
   return [...staticEntries, ...materiaisEntries, ...treinamentosEntries];

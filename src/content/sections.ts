@@ -6,8 +6,8 @@ export const SECTIONS = [
       "Materiais gratuitos sobre segurança e saúde do trabalho. Baixe informando nome, e-mail e WhatsApp.",
   },
   {
-    href: "/treinamentos-vip",
-    title: "Treinamentos VIP",
+    href: "/biblioteca-premium",
+    title: "Biblioteca Premium",
     description: "Treinamentos pagos e completos, com acesso liberado direto no checkout.",
   },
   {

@@ -5,14 +5,14 @@ import { ButtonLink, Button } from "@/components/ui/Button";
 import { getTreinamentoBySlug, isLinkDisponivel } from "@/lib/catalog";
 
 export async function generateMetadata(
-  props: PageProps<"/treinamentos-vip/[slug]">
+  props: PageProps<"/biblioteca-premium/[slug]">
 ): Promise<Metadata> {
   const { slug } = await props.params;
   const treinamento = await getTreinamentoBySlug(slug);
   return { title: treinamento?.titulo ?? "Treinamento" };
 }
 
-export default async function TreinamentoPage(props: PageProps<"/treinamentos-vip/[slug]">) {
+export default async function TreinamentoPage(props: PageProps<"/biblioteca-premium/[slug]">) {
   const { slug } = await props.params;
   const treinamento = await getTreinamentoBySlug(slug);
 

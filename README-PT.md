@@ -15,7 +15,7 @@ Colunas na primeira linha, exatamente assim:
 - `linkDrive`: o link do Google Drive do material (pode deixar o arquivo como "qualquer pessoa com o link pode visualizar").
 - `slug`: pode deixar em branco — o site gera automaticamente a partir do título.
 
-### Aba "Treinamentos" (Treinamentos VIP)
+### Aba "Treinamentos" (Biblioteca Premium)
 `titulo | descricao | categoria | imagem | preco | linkHotmart | slug`
 
 - `linkHotmart`: o link de checkout do produto no Hotmart. Enquanto não tiver, deixe como `#` — o site mostra "EM BREVE".

@@ -5,17 +5,17 @@ import { ButtonLink } from "@/components/ui/Button";
 import { getTreinamentos, isLinkDisponivel } from "@/lib/catalog";
 
 export const metadata: Metadata = {
-  title: "Treinamentos VIP",
+  title: "Biblioteca Premium",
   description: "Treinamentos pagos e completos em segurança e saúde do trabalho.",
 };
 
-export default async function TreinamentosVipPage() {
+export default async function BibliotecaPremiumPage() {
   const treinamentos = await getTreinamentos();
 
   return (
     <Container className="py-16">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-brand-black">Treinamentos VIP</h1>
+        <h1 className="text-3xl font-bold text-brand-black">Biblioteca Premium</h1>
         <p className="mx-auto mt-3 max-w-2xl text-black/70">
           Treinamentos completos e aprofundados, com acesso imediato após a compra.
         </p>
@@ -47,7 +47,7 @@ export default async function TreinamentosVipPage() {
                 </p>
               )}
             </div>
-            <ButtonLink href={`/treinamentos-vip/${treinamento.slug}`} className="mt-6">
+            <ButtonLink href={`/biblioteca-premium/${treinamento.slug}`} className="mt-6">
               Ver detalhes
             </ButtonLink>
           </Card>
