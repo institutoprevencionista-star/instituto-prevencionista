@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import { isSupabaseConfigured } from "./config";
+import type { UserAccess } from "@/lib/access";
 
 export async function createClient() {
   const cookieStore = await cookies();
@@ -38,4 +39,20 @@ export async function getCurrentUser() {
     data: { user },
   } = await supabase.auth.getUser();
   return user;
+}
+
+// Retorna o tier/agentes avulsos liberados para o usuário logado. Sem linha
+// cadastrada em user_access, o usuário não tem acesso a nenhum agente ainda.
+export async function getUserAccess(userId: string): Promise<UserAccess> {
+  const supabase = await createClient();
+  const { data } = await supabase
+    .from("user_access")
+    .select("tier, agent_slugs")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  return {
+    tier: (data?.tier as UserAccess["tier"]) ?? null,
+    agentSlugs: data?.agent_slugs ?? [],
+  };
 }

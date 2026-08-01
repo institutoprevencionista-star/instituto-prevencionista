@@ -18,7 +18,7 @@ Colunas na primeira linha, exatamente assim:
 ### Aba "Treinamentos" (Biblioteca Premium)
 `titulo | descricao | categoria | imagem | slug`
 
-- A Biblioteca Premium é vendida como **assinatura única** (não por treinamento individual). Essa aba só alimenta a vitrine "O que está incluso" na página — o preço e o link de assinatura ficam configurados à parte (veja item 5).
+- A Biblioteca Premium é vendida como **assinatura única** (não por treinamento individual). Essa aba só alimenta a vitrine "O que está incluso" na página — o preço e o link de assinatura ficam configurados à parte (veja item 6).
 
 ### Aba "Agentes" (Agentes de IA)
 `nome | descricao | categoria | imagem | link | slug`
@@ -108,15 +108,48 @@ um link por e-mail e clica para entrar. Só entra quem você convidar antes.
    NEXT_PUBLIC_SUPABASE_URL=<Project URL>
    NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon public key>
    ```
-4. **Para liberar o acesso de alguém:** vá em **Authentication → Users → Invite user**, digite o
-   e-mail da pessoa e confirme. Ela recebe um e-mail automático com o link de acesso.
+4. **Para liberar o acesso de alguém à área:** vá em **Authentication → Users → Invite user**,
+   digite o e-mail da pessoa e confirme. Ela recebe um e-mail automático com o link de acesso.
+   Isso só libera o *login* — o item 5 explica como liberar quais agentes essa pessoa pode ver.
 5. **Para revogar o acesso de alguém:** na mesma tela, encontre o usuário e exclua o cadastro.
 
-> Quando chegar a fase comercial e você quiser vender acesso em vez de convidar manualmente, é só
-> voltar nessa mesma tela do Supabase e trocar a configuração — não precisa mexer no código do
-> site.
+## 5. Liberar o plano de cada pessoa (página /admin/acessos)
 
-## 5. Assinatura da Biblioteca Premium (Hotmart)
+Entrar no site não é suficiente para ver os agentes — cada pessoa só vê os agentes do plano
+(tier) que ela comprou, ou os agentes avulsos que comprou individualmente. Isso é controlado numa
+página interna, separada do Supabase.
+
+1. Vá em **Settings → API** no painel do Supabase e copie a chave **service_role** (é diferente da
+   anon public key do item 4 — essa aqui é secreta, nunca compartilhe). Cadastre a variável:
+   ```
+   SUPABASE_SERVICE_ROLE_KEY=<service_role key>
+   ADMIN_EMAIL=institutoprevencionista@gmail.com
+   ```
+2. No Supabase, vá em **SQL Editor → New query**, cole e rode o SQL abaixo uma única vez (cria a
+   tabela que guarda o plano de cada pessoa):
+   ```sql
+   create table public.user_access (
+     user_id uuid primary key references auth.users(id) on delete cascade,
+     tier text check (tier in ('essencial','profissional','premium','empresa')),
+     agent_slugs text[] not null default '{}',
+     updated_at timestamptz not null default now()
+   );
+
+   alter table public.user_access enable row level security;
+
+   create policy "Users can read own access"
+     on public.user_access for select
+     using (auth.uid() = user_id);
+   ```
+3. **Depois de convidar alguém (item 4) e ela receber uma venda na Hotmart:** entre logado como
+   `ADMIN_EMAIL` em `institutoprevencionista.com.br/admin/acessos`, encontre o e-mail da pessoa,
+   escolha o plano (Essencial/Profissional/Premium/Empresa) — ou, se ela comprou só um agente
+   avulso, marque só aquele agente na lista — e clique em **Salvar**.
+
+> Sem plano e sem agente avulso marcado, a pessoa fica logada mas não vê nenhum agente liberado —
+> é o comportamento esperado enquanto você não configura o acesso dela.
+
+## 6. Assinatura da Biblioteca Premium (Hotmart)
 
 A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento por treinamento).
 
@@ -130,7 +163,7 @@ A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento
 > Enquanto essa variável não estiver configurada, o site mostra o botão "Em breve" na página da
 > Biblioteca Premium.
 
-## 6. Conectando o domínio ao site (Vercel)
+## 7. Conectando o domínio ao site (Vercel)
 
 1. Crie uma conta gratuita em [vercel.com](https://vercel.com) e importe este projeto (via GitHub,
    ou enviando a pasta).
@@ -143,10 +176,10 @@ A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento
 5. Aguarde a propagação (a Vercel avisa automaticamente quando o domínio fica ativo — pode levar
    de minutos a algumas horas).
 
-## 7. Variáveis de ambiente e deploy
+## 8. Variáveis de ambiente e deploy
 
 Em **Settings → Environment Variables** no projeto da Vercel, cadastre todas as variáveis
-descritas nos itens 1, 2, 3, 4 e 5 deste guia, além de:
+descritas nos itens 1, 2, 3, 4, 5 e 6 deste guia, além de:
 
 ```
 NEXT_PUBLIC_SITE_URL=https://institutoprevencionista.com.br
@@ -155,11 +188,12 @@ NEXT_PUBLIC_SITE_URL=https://institutoprevencionista.com.br
 Depois clique em **Deploy** (ou **Redeploy**, se o site já tinha sido publicado antes de você
 cadastrar as variáveis).
 
-## 8. Rotina do dia a dia
+## 9. Rotina do dia a dia
 
 - **Adicionar um material, treinamento ou agente novo:** edite a planilha de catálogos (item 1). Não precisa mexer em código.
 - **Trocar o link de um agente:** edite a célula correspondente na planilha.
-- **Trocar o link de checkout ou o preço da Biblioteca Premium:** ajuste direto na Hotmart e, se o link mudar, atualize `NEXT_PUBLIC_BIBLIOTECA_PREMIUM_CHECKOUT_URL` (item 5).
-- **Liberar o acesso de alguém aos Agentes Inteligentes:** painel do Supabase → Authentication → Users → Invite user (item 4).
+- **Trocar o link de checkout ou o preço da Biblioteca Premium:** ajuste direto na Hotmart e, se o link mudar, atualize `NEXT_PUBLIC_BIBLIOTECA_PREMIUM_CHECKOUT_URL` (item 6).
+- **Convidar alguém pra fazer login nos Agentes Inteligentes:** painel do Supabase → Authentication → Users → Invite user (item 4).
+- **Liberar o plano/agentes de alguém depois de uma venda na Hotmart:** `institutoprevencionista.com.br/admin/acessos` (item 5).
 - **Ver os leads recebidos:** abra a planilha de Leads (item 2), aba "Leads".
 - **Trocar a logo:** substitua o arquivo `public/logo.png` por uma nova imagem com o mesmo nome.

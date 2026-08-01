@@ -2,8 +2,9 @@ import type { Metadata } from "next";
 import { Container } from "@/components/ui/Container";
 import { AgentesGrid } from "@/components/agentes/AgentesGrid";
 import { getAgentes } from "@/lib/catalog";
-import { getCurrentUser } from "@/lib/supabase/server";
+import { getCurrentUser, getUserAccess } from "@/lib/supabase/server";
 import { logout } from "@/app/actions/auth";
+import type { UserAccess } from "@/lib/access";
 
 export const metadata: Metadata = {
   title: "Agentes Inteligentes",
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export default async function AgentesInteligentesPage() {
   const user = await getCurrentUser();
   const agentes = await getAgentes();
+  const access: UserAccess | null = user ? await getUserAccess(user.id) : null;
 
   return (
     <Container className="py-16">
@@ -23,19 +25,19 @@ export default async function AgentesInteligentesPage() {
           saúde do trabalho.
         </p>
         {user?.email && (
-          <p className="mt-4 text-sm text-black/60">
+          <div className="mt-4 text-sm text-black/60">
             Logado como {user.email} ·{" "}
             <form action={logout} className="inline">
               <button type="submit" className="underline hover:text-brand-green-700">
                 Sair
               </button>
             </form>
-          </p>
+          </div>
         )}
       </div>
 
       <div className="mt-10">
-        <AgentesGrid agentes={agentes} />
+        <AgentesGrid agentes={agentes} access={access} />
       </div>
     </Container>
   );
