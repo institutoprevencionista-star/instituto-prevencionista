@@ -61,16 +61,16 @@ export default function HomePage() {
           </div>
 
           <div className="relative mx-auto flex w-full max-w-sm items-center justify-center py-6 lg:max-w-none">
-            <div className="absolute h-72 w-72 rounded-full bg-brand-gold-500/10 sm:h-80 sm:w-80" />
-            <div className="absolute h-56 w-56 rounded-full border border-white/10 sm:h-64 sm:w-64" />
-            <div className="absolute h-40 w-40 rounded-full border border-white/10 sm:h-48 sm:w-48" />
+            <div className="absolute h-96 w-96 rounded-full bg-brand-gold-500/10 sm:h-[28rem] sm:w-[28rem] lg:h-[30rem] lg:w-[30rem]" />
+            <div className="absolute h-72 w-72 rounded-full border border-white/10 sm:h-80 sm:w-80 lg:h-96 lg:w-96" />
+            <div className="absolute h-56 w-56 rounded-full border border-white/10 sm:h-64 sm:w-64 lg:h-72 lg:w-72" />
             <Image
               src="/logo.png"
               alt="Instituto Prevencionista"
-              width={320}
-              height={320}
+              width={448}
+              height={448}
               priority
-              className="relative h-52 w-52 object-contain drop-shadow-2xl sm:h-64 sm:w-64"
+              className="relative h-64 w-64 object-contain drop-shadow-2xl sm:h-80 sm:w-80 lg:h-96 lg:w-96"
             />
           </div>
         </Container>
