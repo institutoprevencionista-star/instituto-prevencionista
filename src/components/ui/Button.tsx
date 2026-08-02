@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ButtonHTMLAttributes, ReactNode } from "react";
 
-type Variant = "primary" | "secondary" | "ghost";
+type Variant = "primary" | "secondary" | "ghost" | "white" | "outline-white";
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   primary:
@@ -10,6 +10,10 @@ const VARIANT_CLASSES: Record<Variant, string> = {
     "bg-brand-gold-500 text-brand-black hover:bg-brand-gold-400 focus-visible:outline-brand-gold-500",
   ghost:
     "bg-transparent text-brand-green-700 border border-brand-green-700 hover:bg-brand-green-700 hover:text-white",
+  white:
+    "bg-white text-brand-green-900 hover:bg-white/90 focus-visible:outline-white",
+  "outline-white":
+    "bg-transparent text-white border border-white/50 hover:bg-white hover:text-brand-green-900 focus-visible:outline-white",
 };
 
 const BASE_CLASSES =
