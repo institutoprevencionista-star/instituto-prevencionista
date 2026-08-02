@@ -18,7 +18,7 @@ Colunas na primeira linha, exatamente assim:
 ### Aba "Treinamentos" (Biblioteca Premium)
 `titulo | descricao | categoria | imagem | slug`
 
-- A Biblioteca Premium é vendida como **assinatura única** (não por treinamento individual). Essa aba só alimenta a vitrine "O que está incluso" na página — o preço e o link de assinatura ficam configurados à parte (veja item 6).
+- A Biblioteca Premium é vendida como **assinatura única** (não por treinamento individual). Essa aba só alimenta a vitrine "O que está incluso" na página — o preço e o link de assinatura ficam configurados à parte (veja item 7).
 
 ### Aba "Agentes" (Agentes de IA)
 `nome | descricao | categoria | imagem | link | slug`
@@ -149,7 +149,33 @@ página interna, separada do Supabase.
 > Sem plano e sem agente avulso marcado, a pessoa fica logada mas não vê nenhum agente liberado —
 > é o comportamento esperado enquanto você não configura o acesso dela.
 
-## 6. Assinatura da Biblioteca Premium (Hotmart)
+> **Isso pode ser automático** — veja o item 6. Configurando o webhook, o passo 3 acima deixa de
+> ser necessário: o próprio sistema libera (e revoga) o acesso quando a venda acontece na Hotmart.
+
+## 6. Automatizar a liberação de acesso (Webhook da Hotmart)
+
+Com isso configurado, você não precisa mais entrar em `/admin/acessos` toda vez que alguém compra
+ou cancela — a Hotmart avisa o site automaticamente e ele libera (ou revoga) o acesso sozinho,
+convidando a pessoa por e-mail se for a primeira compra dela.
+
+1. Copie o Hottok da sua conta: painel da Hotmart → **Ferramentas → Webhook → Autenticação**.
+   Cadastre a variável:
+   ```
+   HOTMART_HOTTOK=<seu Hottok>
+   ```
+2. Ainda em **Ferramentas → Webhook**, clique em **Cadastrar Webhook**:
+   - **Produto:** escolha "Todos os produtos".
+   - **URL para envio de dados:** `https://institutoprevencionista.com.br/api/webhooks/hotmart`
+   - **Versão:** 2.0.0 (Recomendado).
+   - **Eventos para enviar:** marque pelo menos Compra aprovada, Compra cancelada, Compra
+     reembolsada, Pedido de reembolso, Cancelamento de Assinatura e Troca de plano.
+   - Clique em **Salvar**.
+
+> Se um dia você criar um produto novo na Hotmart (outro agente, por exemplo), ele não vai liberar
+> acesso sozinho até alguém adicionar o ID desse produto no arquivo `src/lib/hotmart-products.ts`
+> do código — isso é trabalho de programação, não dá pra fazer pela planilha.
+
+## 7. Assinatura da Biblioteca Premium (Hotmart)
 
 A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento por treinamento).
 
@@ -163,7 +189,7 @@ A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento
 > Enquanto essa variável não estiver configurada, o site mostra o botão "Em breve" na página da
 > Biblioteca Premium.
 
-## 7. Conectando o domínio ao site (Vercel)
+## 8. Conectando o domínio ao site (Vercel)
 
 1. Crie uma conta gratuita em [vercel.com](https://vercel.com) e importe este projeto (via GitHub,
    ou enviando a pasta).
@@ -176,10 +202,10 @@ A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento
 5. Aguarde a propagação (a Vercel avisa automaticamente quando o domínio fica ativo — pode levar
    de minutos a algumas horas).
 
-## 8. Variáveis de ambiente e deploy
+## 9. Variáveis de ambiente e deploy
 
 Em **Settings → Environment Variables** no projeto da Vercel, cadastre todas as variáveis
-descritas nos itens 1, 2, 3, 4, 5 e 6 deste guia, além de:
+descritas nos itens 1, 2, 3, 4, 5, 6 e 7 deste guia, além de:
 
 ```
 NEXT_PUBLIC_SITE_URL=https://institutoprevencionista.com.br
@@ -188,12 +214,13 @@ NEXT_PUBLIC_SITE_URL=https://institutoprevencionista.com.br
 Depois clique em **Deploy** (ou **Redeploy**, se o site já tinha sido publicado antes de você
 cadastrar as variáveis).
 
-## 9. Rotina do dia a dia
+## 10. Rotina do dia a dia
 
 - **Adicionar um material, treinamento ou agente novo:** edite a planilha de catálogos (item 1). Não precisa mexer em código.
 - **Trocar o link de um agente:** edite a célula correspondente na planilha.
-- **Trocar o link de checkout ou o preço da Biblioteca Premium:** ajuste direto na Hotmart e, se o link mudar, atualize `NEXT_PUBLIC_BIBLIOTECA_PREMIUM_CHECKOUT_URL` (item 6).
-- **Convidar alguém pra fazer login nos Agentes Inteligentes:** painel do Supabase → Authentication → Users → Invite user (item 4).
-- **Liberar o plano/agentes de alguém depois de uma venda na Hotmart:** `institutoprevencionista.com.br/admin/acessos` (item 5).
+- **Trocar o link de checkout ou o preço da Biblioteca Premium:** ajuste direto na Hotmart e, se o link mudar, atualize `NEXT_PUBLIC_BIBLIOTECA_PREMIUM_CHECKOUT_URL` (item 7).
+- **Convidar alguém pra fazer login nos Agentes Inteligentes:** normalmente nem precisa mais — com o webhook (item 6) configurado, a primeira compra já convida a pessoa sozinha. Só use o Invite user manual (painel do Supabase → Authentication → Users, item 4) pra liberar alguém sem passar pela Hotmart.
+- **Liberar o plano/agentes de alguém manualmente** (caso especial, cortesia, etc.): `institutoprevencionista.com.br/admin/acessos` (item 5).
+- **Criar um agente novo pra vender individualmente:** além de cadastrar o produto na Hotmart, é preciso adicionar o ID dele em `src/lib/hotmart-products.ts` no código (item 6) — senão o webhook não sabe o que liberar.
 - **Ver os leads recebidos:** abra a planilha de Leads (item 2), aba "Leads".
 - **Trocar a logo:** substitua o arquivo `public/logo.png` por uma nova imagem com o mesmo nome.
