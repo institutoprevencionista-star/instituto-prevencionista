@@ -19,7 +19,7 @@ export default async function BibliotecaPremiumPage() {
       <div className="text-center">
         <h1 className="text-3xl font-bold text-brand-black">Biblioteca Premium</h1>
         <p className="mx-auto mt-3 max-w-2xl text-lg font-semibold text-brand-gold-500">
-          100+ materiais profissionais de SST
+          400+ materiais profissionais de SST
         </p>
         <p className="mx-auto mt-3 max-w-2xl text-black/70">
           Kits completos organizados por Norma Regulamentadora: apresentação de treinamento,
