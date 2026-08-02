@@ -1,8 +1,8 @@
+import Image from "next/image";
 import { Clock3, HeartHandshake, ShieldCheck, Sparkles } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { ButtonLink } from "@/components/ui/Button";
-import { HeroIllustration } from "@/components/home/HeroIllustration";
 import { SECTIONS } from "@/content/sections";
 import { buildWhatsappUrl } from "@/lib/contact";
 
@@ -60,8 +60,18 @@ export default function HomePage() {
             </div>
           </div>
 
-          <div className="mx-auto w-full max-w-sm lg:max-w-none">
-            <HeroIllustration />
+          <div className="relative mx-auto flex w-full max-w-sm items-center justify-center py-6 lg:max-w-none">
+            <div className="absolute h-72 w-72 rounded-full bg-brand-gold-500/10 sm:h-80 sm:w-80" />
+            <div className="absolute h-56 w-56 rounded-full border border-white/10 sm:h-64 sm:w-64" />
+            <div className="absolute h-40 w-40 rounded-full border border-white/10 sm:h-48 sm:w-48" />
+            <Image
+              src="/logo.png"
+              alt="Instituto Prevencionista"
+              width={320}
+              height={320}
+              priority
+              className="relative h-52 w-52 object-contain drop-shadow-2xl sm:h-64 sm:w-64"
+            />
           </div>
         </Container>
       </section>
