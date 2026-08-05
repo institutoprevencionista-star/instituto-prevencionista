@@ -9,6 +9,7 @@ import { Container } from "@/components/ui/Container";
 const NAV_LINKS = [
   { href: "/biblioteca", label: "Biblioteca Gratuita" },
   { href: "/biblioteca-premium", label: "Biblioteca Premium" },
+  { href: "/nossos-agentes", label: "Conheça os Agentes" },
   { href: "/agentes-inteligentes", label: "Agentes Inteligentes" },
   { href: "/consultoria", label: "Consultoria Especializada" },
   { href: "/treinamento-in-company", label: "Treinamento In Company" },

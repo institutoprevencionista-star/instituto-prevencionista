@@ -21,9 +21,17 @@ Colunas na primeira linha, exatamente assim:
 - A Biblioteca Premium é vendida como **assinatura única** (não por treinamento individual). Essa aba só alimenta a vitrine "O que está incluso" na página — o preço e o link de assinatura ficam configurados à parte (veja item 7).
 
 ### Aba "Agentes" (Agentes de IA)
-`nome | descricao | categoria | imagem | link | slug`
+`nome | descricao | categoria | imagem | video | link | slug`
 
-- `link`: o link de acesso ao agente.
+- `link`: o link de acesso ao agente (ChatGPT).
+- `imagem`: link direto de uma imagem (ideal formato quadrado, ex: 600x600 px) que aparece na
+  vitrine pública `/nossos-agentes` e na página de cada agente. Pode subir a imagem em qualquer
+  serviço de hospedagem de imagem e colar o link direto do arquivo. Se deixar em branco, o site
+  mostra um quadrado com a inicial do nome do agente no lugar.
+- `video`: link de um vídeo do **YouTube** (pode ser "não listado") explicando aquele agente
+  específico. Aparece na página de detalhe do agente, em formato vertical (9:16). Para trocar o
+  vídeo — por exemplo, uma vez por semana — é só editar essa célula na planilha, não precisa mexer
+  em nada mais. Se deixar em branco, a página do agente simplesmente não mostra vídeo.
 
 ### Publicando cada aba como CSV
 Para o site conseguir ler cada aba automaticamente:
@@ -175,7 +183,9 @@ convidando a pessoa por e-mail se for a primeira compra dela.
 > acesso sozinho até alguém adicionar o ID desse produto no arquivo `src/lib/hotmart-products.ts`
 > do código — isso é trabalho de programação, não dá pra fazer pela planilha.
 
-## 7. Assinatura da Biblioteca Premium (Hotmart)
+## 7. Assinaturas na Hotmart
+
+### Biblioteca Premium
 
 A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento por treinamento).
 
@@ -188,6 +198,23 @@ A Biblioteca Premium é uma assinatura anual única (não é vendida treinamento
 
 > Enquanto essa variável não estiver configurada, o site mostra o botão "Em breve" na página da
 > Biblioteca Premium.
+
+### Planos dos Agentes Inteligentes (página `/planos`)
+
+A página `/planos` mostra os 4 planos combo (Essencial, Profissional, Premium, Empresa) com botão
+de assinar. Para cada plano, pegue o **link de página de pagamento** na Hotmart (dentro do produto
+→ "Links de divulgação" → "Página de pagamento") e cadastre nas variáveis:
+
+```
+NEXT_PUBLIC_PLANO_ESSENCIAL_CHECKOUT_URL=<link de checkout do IP Essencial>
+NEXT_PUBLIC_PLANO_PROFISSIONAL_CHECKOUT_URL=<link de checkout do IP Profissional>
+NEXT_PUBLIC_PLANO_PREMIUM_CHECKOUT_URL=<link de checkout do IP Premium>
+NEXT_PUBLIC_PLANO_EMPRESA_CHECKOUT_URL=<link de checkout do IP Empresa>
+```
+
+> Se mudar o preço de algum plano na Hotmart, atualize também o valor mostrado no arquivo
+> `src/app/planos/page.tsx` (procure por "R$" — é só texto, não precisa entender o resto do
+> código).
 
 ## 8. Conectando o domínio ao site (Vercel)
 
@@ -218,7 +245,11 @@ cadastrar as variáveis).
 
 - **Adicionar um material, treinamento ou agente novo:** edite a planilha de catálogos (item 1). Não precisa mexer em código.
 - **Trocar o link de um agente:** edite a célula correspondente na planilha.
+- **Trocar a imagem ou o vídeo de um agente na vitrine pública `/nossos-agentes`:** edite as
+  colunas `imagem` e `video` da aba "Agentes" na planilha (item 1). A troca aparece no site sozinha
+  em até 5 minutos, sem precisar mexer em código nem pedir ajuda.
 - **Trocar o link de checkout ou o preço da Biblioteca Premium:** ajuste direto na Hotmart e, se o link mudar, atualize `NEXT_PUBLIC_BIBLIOTECA_PREMIUM_CHECKOUT_URL` (item 7).
+- **Trocar o link de checkout ou o preço de um plano de Agentes Inteligentes:** ajuste direto na Hotmart e, se o link mudar, atualize a variável correspondente (item 7).
 - **Convidar alguém pra fazer login nos Agentes Inteligentes:** normalmente nem precisa mais — com o webhook (item 6) configurado, a primeira compra já convida a pessoa sozinha. Só use o Invite user manual (painel do Supabase → Authentication → Users, item 4) pra liberar alguém sem passar pela Hotmart.
 - **Liberar o plano/agentes de alguém manualmente** (caso especial, cortesia, etc.): `institutoprevencionista.com.br/admin/acessos` (item 5).
 - **Criar um agente novo pra vender individualmente:** além de cadastrar o produto na Hotmart, é preciso adicionar o ID dele em `src/lib/hotmart-products.ts` no código (item 6) — senão o webhook não sabe o que liberar.

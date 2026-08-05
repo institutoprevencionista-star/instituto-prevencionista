@@ -27,6 +27,7 @@ export type Agente = {
   descricao: string;
   categoria: string;
   imagem: string;
+  video: string;
   link: string;
 };
 
@@ -61,6 +62,7 @@ const PLACEHOLDER_AGENTES: Agente[] = [
       "Este é um agente de exemplo. Cadastre os 20+ agentes reais na planilha configurada em SHEETS_AGENTES_CSV_URL.",
     categoria: "Exemplo",
     imagem: "",
+    video: "",
     link: "#",
   },
 ];
@@ -110,6 +112,7 @@ export async function getAgentes(): Promise<Agente[]> {
       descricao: row.descricao ?? "",
       categoria: row.categoria ?? "",
       imagem: row.imagem ?? "",
+      video: row.video ?? "",
       link: row.link ?? "#",
     };
   });
