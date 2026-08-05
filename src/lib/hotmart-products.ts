@@ -32,6 +32,8 @@ export const HOTMART_PRODUCT_ACCESS: Record<string, ProductAccessRule> = {
   "8233026": { kind: "agent", slug: "ip-insalubridade-e-periculosidade" },
   "8233062": { kind: "agent", slug: "ip-ho-engenharia-laudos-e-pericias" },
   "8233091": { kind: "agent", slug: "ip-gestao-de-seguranca-incendio" },
+  "8255935": { kind: "agent", slug: "ip-nr-33-pro-master" },
+  "8256209": { kind: "agent", slug: "ip-nr-35-expert-ai" },
 };
 
 const GRANT_EVENTS = new Set([
