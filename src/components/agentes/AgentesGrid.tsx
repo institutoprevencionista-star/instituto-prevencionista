@@ -74,7 +74,7 @@ export function AgentesGrid({
                   </Button>
                 ) : (
                   <ButtonLink
-                    href={`/api/agentes/${agente.slug}/ir`}
+                    href={`/agentes/${agente.slug}/abrir`}
                     target="_blank"
                     className="mt-6"
                   >
