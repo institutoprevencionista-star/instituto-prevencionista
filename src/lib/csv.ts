@@ -1,5 +1,15 @@
 import Papa from "papaparse";
 
+const DIACRITICS_REGEX = /[̀-ͯ]/g;
+
+function normalizeHeader(header: string): string {
+  return header
+    .normalize("NFD")
+    .replace(DIACRITICS_REGEX, "")
+    .trim()
+    .toLowerCase();
+}
+
 export async function fetchCsvRows(
   url: string | undefined
 ): Promise<Record<string, string>[]> {
@@ -14,13 +24,11 @@ export async function fetchCsvRows(
   const { data } = Papa.parse<Record<string, string>>(csvText, {
     header: true,
     skipEmptyLines: true,
-    transformHeader: (header) => header.trim().toLowerCase(),
+    transformHeader: normalizeHeader,
   });
 
   return data.filter((row) => Object.values(row).some((value) => value?.trim()));
 }
-
-const DIACRITICS_REGEX = /[̀-ͯ]/g;
 
 export function slugify(text: string): string {
   return text
