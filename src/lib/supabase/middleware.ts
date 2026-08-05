@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const PROTECTED_PATHS = ["/agentes-inteligentes", "/agentes/", "/admin"];
+const PROTECTED_PATHS = ["/agentes-inteligentes", "/agentes/", "/admin", "/inspecao-sst-ia"];
 
 export async function updateSession(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
