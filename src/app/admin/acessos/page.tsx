@@ -2,12 +2,11 @@ import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
 import { getCurrentUser } from "@/lib/supabase/server";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { getAgentes } from "@/lib/catalog";
-import { TIERS, TIER_LABEL } from "@/lib/access";
-import { updateUserAccess } from "./actions";
+import type { Tier } from "@/lib/access";
+import { AccessForm } from "./AccessForm";
 
 export const metadata: Metadata = {
   title: "Acessos aos Agentes",
@@ -45,54 +44,16 @@ export default async function AcessosAdminPage() {
 
         {usuarios.map((usuario) => {
           const acesso = accessByUser.get(usuario.id);
-          // A key inclui o estado salvo para remontar o form (e os valores
-          // padrão do select/checkboxes) sempre que o acesso mudar no banco.
-          const formKey = `${usuario.id}:${acesso?.tier ?? ""}:${(acesso?.agent_slugs ?? []).join(",")}`;
 
           return (
-            <Card key={formKey}>
-              <form action={updateUserAccess} className="space-y-4">
-                <input type="hidden" name="userId" value={usuario.id} />
-
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="font-semibold text-brand-green-900">{usuario.email}</span>
-                  <select
-                    name="tier"
-                    defaultValue={acesso?.tier ?? ""}
-                    className="rounded-md border border-black/20 px-3 py-1.5 text-sm"
-                  >
-                    <option value="">Sem plano</option>
-                    {TIERS.map((tier) => (
-                      <option key={tier} value={tier}>
-                        {TIER_LABEL[tier]}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                <details>
-                  <summary className="cursor-pointer text-sm text-black/60">
-                    Agentes avulsos (opcional)
-                  </summary>
-                  <div className="mt-3 grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-                    {agentes.map((agente) => (
-                      <label key={agente.slug} className="flex items-center gap-2 text-sm">
-                        <input
-                          type="checkbox"
-                          name="agentSlugs"
-                          value={agente.slug}
-                          defaultChecked={acesso?.agent_slugs?.includes(agente.slug) ?? false}
-                        />
-                        {agente.nome}
-                      </label>
-                    ))}
-                  </div>
-                </details>
-
-                <Button type="submit" variant="secondary">
-                  Salvar
-                </Button>
-              </form>
+            <Card key={usuario.id}>
+              <AccessForm
+                userId={usuario.id}
+                email={usuario.email ?? ""}
+                tier={(acesso?.tier as Tier | null) ?? null}
+                agentSlugs={acesso?.agent_slugs ?? []}
+                agentes={agentes}
+              />
             </Card>
           );
         })}

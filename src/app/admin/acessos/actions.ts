@@ -12,7 +12,12 @@ async function assertIsAdmin() {
   }
 }
 
-export async function updateUserAccess(formData: FormData) {
+export type UpdateAccessState = { ok: boolean; error?: string };
+
+export async function updateUserAccess(
+  _prevState: UpdateAccessState,
+  formData: FormData
+): Promise<UpdateAccessState> {
   await assertIsAdmin();
 
   const userId = String(formData.get("userId") ?? "");
@@ -20,7 +25,7 @@ export async function updateUserAccess(formData: FormData) {
   const agentSlugs = formData.getAll("agentSlugs").map(String);
 
   if (!userId) {
-    throw new Error("Usuário inválido.");
+    return { ok: false, error: "Usuário inválido." };
   }
 
   const tier: Tier | null = TIERS.includes(tierRaw as Tier) ? (tierRaw as Tier) : null;
@@ -35,8 +40,9 @@ export async function updateUserAccess(formData: FormData) {
 
   if (error) {
     console.error("Erro ao atualizar acesso:", error);
-    throw new Error("Não foi possível salvar o acesso.");
+    return { ok: false, error: "Não foi possível salvar o acesso." };
   }
 
   revalidatePath("/admin/acessos");
+  return { ok: true };
 }
