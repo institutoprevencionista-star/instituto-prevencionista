@@ -1,5 +1,17 @@
 import Image from "next/image";
-import { isLinkDisponivel } from "@/lib/catalog";
+
+function isImagemValida(imagem: string): boolean {
+  const trimmed = imagem.trim();
+  if (!trimmed || trimmed === "#") return false;
+  if (trimmed.startsWith("/")) return true;
+
+  try {
+    const url = new URL(trimmed);
+    return url.protocol === "http:" || url.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
 
 export function AgenteImagem({
   imagem,
@@ -10,7 +22,7 @@ export function AgenteImagem({
   nome: string;
   className?: string;
 }) {
-  if (isLinkDisponivel(imagem)) {
+  if (isImagemValida(imagem)) {
     return (
       <div className={`relative w-full overflow-hidden bg-black/5 ${className}`}>
         <Image src={imagem} alt={nome} fill className="object-cover" unoptimized />
