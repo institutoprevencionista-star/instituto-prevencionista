@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { resolveImagemUrl } from "@/lib/drive-image";
 
 function isImagemValida(imagem: string): boolean {
   const trimmed = imagem.trim();
@@ -25,7 +26,7 @@ export function AgenteImagem({
   if (isImagemValida(imagem)) {
     return (
       <div className={`relative w-full overflow-hidden bg-black/5 ${className}`}>
-        <Image src={imagem} alt={nome} fill className="object-cover" unoptimized />
+        <Image src={resolveImagemUrl(imagem)} alt={nome} fill className="object-cover" unoptimized />
       </div>
     );
   }
