@@ -11,7 +11,8 @@ export const metadata: Metadata = {
 type Plano = {
   tier: string;
   nome: string;
-  preco: string;
+  parcela: string;
+  totalAVista: string;
   resumo: string;
   destaque?: boolean;
   checkoutUrl: string;
@@ -21,14 +22,16 @@ const PLANOS: Plano[] = [
   {
     tier: "essencial",
     nome: "Essencial",
-    preco: "R$ 797 /ano",
+    parcela: "R$ 66,42",
+    totalAVista: "R$ 797,00 à vista",
     resumo: "3 agentes inteligentes essenciais para começar a aplicar IA na sua rotina de SST.",
     checkoutUrl: process.env.NEXT_PUBLIC_PLANO_ESSENCIAL_CHECKOUT_URL ?? "#",
   },
   {
     tier: "profissional",
     nome: "Profissional",
-    preco: "R$ 1.497 /ano",
+    parcela: "R$ 124,75",
+    totalAVista: "R$ 1.497,00 à vista",
     resumo: "10 agentes inteligentes (inclui todos do Essencial) para o dia a dia completo de SST.",
     destaque: true,
     checkoutUrl: process.env.NEXT_PUBLIC_PLANO_PROFISSIONAL_CHECKOUT_URL ?? "#",
@@ -36,14 +39,16 @@ const PLANOS: Plano[] = [
   {
     tier: "premium",
     nome: "Premium",
-    preco: "R$ 2.497 /ano",
+    parcela: "R$ 208,09",
+    totalAVista: "R$ 2.497,00 à vista",
     resumo: "Todos os agentes inteligentes do Instituto Prevencionista, sem limitação.",
     checkoutUrl: process.env.NEXT_PUBLIC_PLANO_PREMIUM_CHECKOUT_URL ?? "#",
   },
   {
     tier: "empresa",
     nome: "Empresa",
-    preco: "R$ 4.997 /ano",
+    parcela: "R$ 416,42",
+    totalAVista: "R$ 4.997,00 à vista",
     resumo: "Todos os agentes inteligentes, com acesso para até 3 usuários da sua equipe.",
     checkoutUrl: process.env.NEXT_PUBLIC_PLANO_EMPRESA_CHECKOUT_URL ?? "#",
   },
@@ -57,6 +62,9 @@ export default function PlanosPage() {
         <p className="mx-auto mt-3 max-w-2xl text-black/70">
           Assine o acesso aos Agentes Inteligentes do Instituto Prevencionista. Planos superiores
           incluem todos os agentes dos planos anteriores.
+        </p>
+        <p className="mx-auto mt-2 max-w-2xl text-xs text-black/50">
+          Assinatura anual, cobrada em até 12x no cartão de crédito.
         </p>
       </div>
 
@@ -74,7 +82,12 @@ export default function PlanosPage() {
               </span>
             )}
             <h2 className="text-lg font-bold text-brand-green-900">{plano.nome}</h2>
-            <p className="mt-2 text-2xl font-bold text-brand-black">{plano.preco}</p>
+            <p className="mt-2">
+              <span className="text-xs text-black/60">12x de</span>
+              <br />
+              <span className="text-2xl font-bold text-brand-black">{plano.parcela}</span>
+            </p>
+            <p className="text-xs text-black/50">ou {plano.totalAVista}</p>
             <p className="mt-3 flex-1 text-sm text-black/70">{plano.resumo}</p>
 
             {isLinkDisponivel(plano.checkoutUrl) ? (
