@@ -3,6 +3,10 @@ import { getMateriais, getTreinamentos } from "@/lib/catalog";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://institutoprevencionista.vercel.app";
 
+// Evita que o build fique preso esperando a planilha do Google
+// (o sitemap é gerado a cada acesso, com cache de 5 min do fetch).
+export const dynamic = "force-dynamic";
+
 const STATIC_ROUTES = [
   "",
   "/biblioteca",
