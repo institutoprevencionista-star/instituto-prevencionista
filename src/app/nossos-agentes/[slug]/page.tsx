@@ -6,6 +6,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { getAgentes } from "@/lib/catalog";
 import { getYoutubeEmbedUrl } from "@/lib/youtube";
 import { AgenteImagem } from "@/components/agentes/AgenteImagem";
+import { AGENT_PRICING } from "@/lib/agent-pricing";
 
 export async function generateMetadata(
   props: PageProps<"/nossos-agentes/[slug]">
@@ -32,6 +33,7 @@ export default async function AgenteDetalhePage(props: PageProps<"/nossos-agente
   }
 
   const videoEmbedUrl = getYoutubeEmbedUrl(agente.video);
+  const pricing = AGENT_PRICING[agente.slug];
 
   return (
     <Container className="py-16">
@@ -75,6 +77,23 @@ export default async function AgenteDetalhePage(props: PageProps<"/nossos-agente
           <ButtonLink href="/planos" className="mt-8">
             Assinar plano
           </ButtonLink>
+
+          {pricing && (
+            <div className="mt-4 rounded-lg border border-black/10 bg-black/[0.02] p-4">
+              <p className="text-sm text-black/70">
+                Prefere assinar só este agente?{" "}
+                <span className="font-semibold text-brand-black">{pricing.preco}</span>
+              </p>
+              <ButtonLink
+                href={pricing.checkoutUrl}
+                target="_blank"
+                variant="ghost"
+                className="mt-3"
+              >
+                Assinar este agente
+              </ButtonLink>
+            </div>
+          )}
         </div>
       </div>
     </Container>

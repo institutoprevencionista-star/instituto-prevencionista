@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui/Container";
 import { getAgentes } from "@/lib/catalog";
 import { AgenteImagem } from "@/components/agentes/AgenteImagem";
+import { AGENT_PRICING } from "@/lib/agent-pricing";
 
 export const metadata: Metadata = {
   title: "Nossos Agentes Inteligentes",
@@ -39,6 +40,11 @@ export default async function NossosAgentesPage() {
               )}
               <h2 className="mt-1 text-lg font-semibold text-brand-green-900">{agente.nome}</h2>
               <p className="mt-2 line-clamp-3 text-sm text-black/70">{agente.descricao}</p>
+              {AGENT_PRICING[agente.slug] && (
+                <p className="mt-2 text-sm font-semibold text-brand-black">
+                  {AGENT_PRICING[agente.slug].preco}
+                </p>
+              )}
               <span className="mt-4 text-sm font-semibold text-brand-green-700">
                 Ver detalhes →
               </span>
