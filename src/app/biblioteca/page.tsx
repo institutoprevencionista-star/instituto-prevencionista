@@ -9,6 +9,10 @@ export const metadata: Metadata = {
   description: "Materiais gratuitos sobre segurança e saúde do trabalho.",
 };
 
+// Evita que o build fique preso esperando a planilha do Google
+// (a página é renderizada a cada acesso, com cache de 5 min do fetch).
+export const dynamic = "force-dynamic";
+
 export default async function BibliotecaPage() {
   const materiais = await getMateriais();
 

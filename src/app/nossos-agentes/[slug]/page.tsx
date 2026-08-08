@@ -8,6 +8,10 @@ import { getYoutubeEmbedUrl } from "@/lib/youtube";
 import { AgenteImagem } from "@/components/agentes/AgenteImagem";
 import { AGENT_PRICING } from "@/lib/agent-pricing";
 
+// Evita que o build fique preso esperando a planilha do Google
+// (a página é renderizada a cada acesso, com cache de 5 min do fetch).
+export const dynamic = "force-dynamic";
+
 export async function generateMetadata(
   props: PageProps<"/nossos-agentes/[slug]">
 ): Promise<Metadata> {
