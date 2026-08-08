@@ -4,9 +4,8 @@ export type AgentPricing = {
 };
 
 // Preços e links de checkout individuais de cada agente na Hotmart. Ao contrário
-// dos planos combo (assinatura anual em src/app/planos/page.tsx), a maioria dos
-// agentes avulsos é assinatura mensal — exceto ip-nr-33-pro-master e
-// ip-nr-35-expert-ai, que ficaram como pagamento único na Hotmart.
+// dos planos combo (assinatura anual em src/app/planos/page.tsx), todos os
+// agentes avulsos são assinatura mensal recorrente.
 export const AGENT_PRICING: Record<string, AgentPricing> = {
   "gerador-corprorativo-de-pop": {
     preco: "R$ 39,90/mês",
@@ -85,11 +84,11 @@ export const AGENT_PRICING: Record<string, AgentPricing> = {
     checkoutUrl: "https://pay.hotmart.com/A106975583T",
   },
   "ip-nr-33-pro-master": {
-    preco: "R$ 49,90 (pagamento único)",
-    checkoutUrl: "https://pay.hotmart.com/U107029626X",
+    preco: "R$ 49,90/mês",
+    checkoutUrl: "https://pay.hotmart.com/T107069365S",
   },
   "ip-nr-35-expert-ai": {
-    preco: "R$ 49,90 (pagamento único)",
-    checkoutUrl: "https://pay.hotmart.com/N107030110O",
+    preco: "R$ 49,90/mês",
+    checkoutUrl: "https://pay.hotmart.com/I107069486I",
   },
 };
