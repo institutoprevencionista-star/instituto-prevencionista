@@ -91,4 +91,16 @@ export const AGENT_PRICING: Record<string, AgentPricing> = {
     preco: "R$ 49,90/mês",
     checkoutUrl: "https://pay.hotmart.com/I107069486I",
   },
+  "ip-gerador-certificado-inteligente": {
+    preco: "R$ 49,90/mês",
+    checkoutUrl: "https://pay.hotmart.com/E107069751D",
+  },
+  "ip-nr-10-powerguard-ai": {
+    preco: "R$ 49,90/mês",
+    checkoutUrl: "https://pay.hotmart.com/V107069842J",
+  },
+  "ip-especialista-nr-18": {
+    preco: "R$ 49,90/mês",
+    checkoutUrl: "https://pay.hotmart.com/W107069964H",
+  },
 };
