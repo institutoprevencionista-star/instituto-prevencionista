@@ -4,6 +4,7 @@ import { getCurrentUser, getUserAccess } from "@/lib/supabase/server";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getAgentes, isLinkDisponivel } from "@/lib/catalog";
 import { canAccessAgente } from "@/lib/access";
+import { NATIVE_APP_PATHS } from "@/lib/agents/native-apps";
 import { Container } from "@/components/ui/Container";
 import { RedirectCountdown } from "./RedirectCountdown";
 import Image from "next/image";
@@ -35,6 +36,11 @@ export default async function AbrirAgentePage(props: PageProps<"/agentes/[slug]/
     if (!canAccessAgente(agente, access)) {
       redirect("/agentes-inteligentes");
     }
+  }
+
+  const nativeAppPath = NATIVE_APP_PATHS[agente.slug];
+  if (nativeAppPath) {
+    redirect(nativeAppPath);
   }
 
   return (
